@@ -13,14 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
-          path: source
           persist-credentials: false
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: ruby/setup-ruby@f9c4492e86def3e644ab32a0ef185eda5b0c20d0
         with:
-          repository: cartavelio/xerif-latex
-          ref: ed41b568accfed686f30d3e0d83324e59c0235f9
-          path: runtime
-          persist-credentials: false
+          ruby-version: '3.1.7'
       - name: Install TeX Live from an Ubuntu snapshot
         run: |
           sources="$RUNNER_TEMP/texlive.list"
@@ -30,5 +26,5 @@ jobs:
           apt_sources=(-o "Dir::Etc::sourcelist=$sources" -o Dir::Etc::sourceparts=-)
           sudo apt-get "${apt_sources[@]}" update
           sudo apt-get "${apt_sources[@]}" install -y --no-install-recommends texlive-latex-base
-      - name: Compare generated files
-        run: bash source/lib/install/check-docstrip.sh runtime
+      - name: Compare generated startup class
+        run: bash lib/install/check-docstrip.sh

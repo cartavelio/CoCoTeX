@@ -75,16 +75,14 @@ module CoCoTeX
       _f = Tomlib::load(File.read(File.join(BASE_DIR, "VERSION")))
       current = _f.to_o
       if file_version != format("%s.%s.%s", current.version.major, current.version.minor, current.version.patch)
-        toml = OpenStruct.new()
-        toml.version = OpenStruct.new()
-        toml.date = OpenStruct.new()
-        toml.version.major,toml.version.minor,toml.version.patch = String.split(file_version, ".")
-        toml.date.year =  Time.now.strftime("%Y")
-        toml.date.month = Time.now.strftime("%m")
-        toml.date.day =   Time.now.strftime("%d")
+        major, minor, patch = file_version.split(".")
         @file_version = file_version
-        @file_date = format("%s/%s/%s", toml.date.year, toml.date.month, toml.date.day)
-        @new_version = toml
+        @file_date = Time.now.strftime("%Y/%m/%d")
+        year, month, day = @file_date.split("/")
+        @new_version = {
+          "version" => {"major" => major, "minor" => minor, "patch" => patch},
+          "date" => {"year" => year, "month" => month, "day" => day}
+        }
       else
         @file_version = format("%s.%s.%s", current.version.major, current.version.minor, current.version.patch)
         @file_date = format("%s/%s/%s", current.date.year, current.date.month, current.date.day)
