@@ -20,7 +20,8 @@
 %    \end{macrocode}
 % Hard-coded requirements
 %    \begin{macrocode}
-\RequirePackage{kvoptions-patch}
+%<class>% kvoptions-patch aborts on formats from 2020-10-01 onward.
+\@ifl@t@r\fmtversion{2020/10/01}{}{\RequirePackage{kvoptions-patch}}
 \RequirePackage{xkeyval}
 %    \end{macrocode}
 % Passing options down to the \LaTeX\space standard packages
