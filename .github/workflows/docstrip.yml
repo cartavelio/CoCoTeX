@@ -1,0 +1,30 @@
+name: DocStrip reproducibility
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@f9c4492e86def3e644ab32a0ef185eda5b0c20d0
+        with:
+          ruby-version: '3.1.7'
+      - name: Install TeX Live from an Ubuntu snapshot
+        run: |
+          sources="$RUNNER_TEMP/texlive.list"
+          for suite in noble noble-updates noble-security; do
+            echo "deb [check-valid-until=no] https://snapshot.ubuntu.com/ubuntu/20261111T000000Z/ $suite main universe"
+          done > "$sources"
+          apt_sources=(-o "Dir::Etc::sourcelist=$sources" -o Dir::Etc::sourceparts=-)
+          sudo apt-get "${apt_sources[@]}" update
+          sudo apt-get "${apt_sources[@]}" install -y --no-install-recommends texlive-latex-base
+      - name: Compare generated startup class
+        run: bash lib/install/check-docstrip.sh

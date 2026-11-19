@@ -4,9 +4,9 @@
 > The end-user documentation (`doc/manual.pdf`) is incomplete and to
 > be considered a Work in Progress!
 >
-> If you feel valiant, read the source code documentation, instead
-> (`doc/cocotex.pdf`). We try to keep this one as up-to-date as
-> possible.
+> The checked-in source code documentation (`doc/cocotex.pdf`) is a
+> snapshot. To generate it from your checkout, see
+> [Installation from Sources](#installation-from-sources).
 >
 > In the `doc` folder, you also find a
 > [Dante2024.pdf](https://github.com/transpect/CoCoTeX/blob/main/doc/Dante2024.pdf),
@@ -104,6 +104,9 @@ This script creates a temporary folder `temp`, merges the `.dtx` files
 in the `src` directory into a single `temp/cocotex.dtx`, and runs the
 installation script. The resulting .sty, .cls, and lua files are
 stored inside the `build` folder.
+
+The generated `cocotex.cls` requires `kvoptions-patch` only on LaTeX
+formats older than `2020/10/01`.
 
 Run
 
