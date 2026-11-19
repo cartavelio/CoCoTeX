@@ -46,9 +46,8 @@ module CoCoTeX
 
     def install_kernel
       run_while_status("Building CoCoTeX v#{@template.file_version}, #{@template.file_date}") do
-        installer = File.join(LIB_DIR, "install", "cocotex.ins")
-        status = shell_command("cd #{@temp_dir} && cp #{installer} . && latex -no-shell-escape -halt-on-error -interaction=nonstopmode cocotex.ins", silent: true)
-        $log.fatal("DocStrip failed") unless status == 0
+        shell_command(format("cd #{@temp_dir}; cp %s .", File.join(LIB_DIR, "install", "cocotex.ins")))
+        shell_command("cd #{@temp_dir}; latex cocotex.ins", silent: true)
       end
     end
 
